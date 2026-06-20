@@ -20,6 +20,7 @@ import {
 } from 'recharts'
 
 import PageHeader from '../../components/ui/PageHeader'
+import { useAuth } from '../../context/AuthContext'
 import {
   statsData,
   atsTrendData,
@@ -100,13 +101,16 @@ const SectionTitle = ({ children }) => (
    Dashboard Component
 ══════════════════════════════════════════════════════ */
 const Dashboard = () => {
+  const { user } = useAuth()
+  const firstName = user?.firstName || user?.name?.split(' ')[0] || 'there'
+
   return (
     <div className="max-w-7xl mx-auto space-y-8">
 
-      {/* Header */}
+      {/* Header — personalised greeting */}
       <PageHeader
-        title="Dashboard"
-        description="Welcome back! Here's your career readiness snapshot."
+        title={`Welcome back, ${firstName} 👋`}
+        description="Here's a snapshot of your placement preparation progress."
       />
 
       {/* ── Stats Row ─────────────────────────────── */}
@@ -143,8 +147,8 @@ const Dashboard = () => {
 
         {/* ATS Trend – Line chart (spans 2 cols) */}
         <div className="lg:col-span-2 bg-gray-900 border border-gray-800 rounded-2xl p-6">
-          <SectionTitle>ATS Score Trend</SectionTitle>
-          <p className="text-xs text-gray-500 -mt-3 mb-5">Your ATS score over the last 8 weeks</p>
+          <SectionTitle>Placement Progress</SectionTitle>
+          <p className="text-xs text-gray-500 -mt-3 mb-5"> Track your placement preparation journey </p>
           <ResponsiveContainer width="100%" height={220}>
             <LineChart data={atsTrendData} margin={{ top: 5, right: 10, left: -20, bottom: 0 }}>
               <defs>
@@ -172,8 +176,8 @@ const Dashboard = () => {
 
         {/* Readiness Pie chart */}
         <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6">
-          <SectionTitle>Readiness Distribution</SectionTitle>
-          <p className="text-xs text-gray-500 -mt-3 mb-4">Placement score breakdown</p>
+          <SectionTitle>Career Readiness Breakdown</SectionTitle>
+          <p className="text-xs text-gray-500 -mt-3 mb-4">Overview of key preparation areas</p>
           <ResponsiveContainer width="100%" height={180}>
             <PieChart>
               <Pie

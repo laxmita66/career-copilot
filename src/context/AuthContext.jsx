@@ -34,7 +34,7 @@
 
 import { createContext, useContext, useState, useEffect, useCallback } from 'react'
 import { login as loginService, signup as signupService, logout as logoutService, getProfile } from '../services/authService'
-import { getToken, getUser } from '../utils/storage'
+import { getToken, getUser, saveUser } from '../utils/storage'
 
 // ── Context ───────────────────────────────────────────────────────────────────
 
@@ -127,9 +127,13 @@ export const AuthProvider = ({ children }) => {
     setAuthError(null)
   }, [])
 
-  // ── Update user (after profile edit) ─────────────────────────────────────────
+  // ── Update user (after profile edit) — persists to localStorage ─────────────
   const updateUser = useCallback((updates) => {
-    setUser((prev) => ({ ...prev, ...updates }))
+    setUser((prev) => {
+      const merged = { ...prev, ...updates }
+      saveUser(merged)   // keep localStorage in sync so refresh restores the edit
+      return merged
+    })
   }, [])
 
   const value = {

@@ -30,7 +30,7 @@ const navLinks = [
   { label: 'Home', href: '#home' },
   { label: 'Features', href: '#features' },
   { label: 'How It Works', href: '#how-it-works' },
-  { label: 'Testimonials', href: '#testimonials' },
+  
 ]
 
 const features = [
@@ -38,7 +38,7 @@ const features = [
     icon: RiFileTextLine,
     title: 'Resume Analysis',
     description:
-      'Upload your resume and get instant AI-powered feedback on structure, content, keywords, and impact — tailored to your target role.',
+      'Upload your resume and identify areas for improvement before applying to jobs.',
     color: 'text-blue-400',
     bg: 'bg-blue-500/10',
     border: 'group-hover:border-blue-500/30',
@@ -47,7 +47,7 @@ const features = [
     icon: RiBarChartLine,
     title: 'ATS Score Analysis',
     description:
-      'See exactly how Applicant Tracking Systems read your resume. Fix gaps before recruiters even see your application.',
+      'Check how well your resume matches industry ATS requirements and improve weak sections.',
     color: 'text-green-400',
     bg: 'bg-green-500/10',
     border: 'group-hover:border-green-500/30',
@@ -56,7 +56,7 @@ const features = [
     icon: RiLightbulbLine,
     title: 'Skill Gap Detection',
     description:
-      'Compare your current skill set against job descriptions and get a personalised learning roadmap to close the gaps fast.',
+      'Compare your current skills with your target role and discover what to learn next.',
     color: 'text-yellow-400',
     bg: 'bg-yellow-500/10',
     border: 'group-hover:border-yellow-500/30',
@@ -65,7 +65,7 @@ const features = [
     icon: RiQuestionAnswerLine,
     title: 'Interview Question Generator',
     description:
-      'Generate role-specific technical and behavioural questions with model answers to help you walk into every interview with confidence.',
+      'Practice technical and HR interview questions tailored to your career goals.',
     color: 'text-orange-400',
     bg: 'bg-orange-500/10',
     border: 'group-hover:border-orange-500/30',
@@ -77,59 +77,59 @@ const steps = [
     step: '01',
     icon: RiUploadCloud2Line,
     title: 'Upload Your Resume',
-    description: 'Drop your PDF or DOCX resume. Our AI parses and structures every detail in seconds.',
+    description: 'Upload your resume and identify areas that can be improved before applying for jobs.',
   },
   {
     step: '02',
     icon: RiSearchEyeLine,
     title: 'Analyze & Match',
-    description: 'Paste a job description to see your match score, missing keywords, and skill gaps instantly.',
+    description: 'Check how well your resume matches ATS requirements and improve weak sections.',
   },
   {
     step: '03',
     icon: RiBrainLine,
     title: 'Get AI Insights',
-    description: 'Receive actionable recommendations to improve your ATS score and stand out to recruiters.',
+    description: 'Compare your skills with your target role and discover what to learn next.',
   },
   {
     step: '04',
     icon: RiAwardLine,
     title: 'Land the Job',
-    description: 'Walk into interviews prepared, with a polished resume and a clear career strategy.',
+    description: 'Practice technical and HR interview questions based on your career goals.',
   },
 ]
 
 const benefits = [
-  { icon: RiShieldCheckLine, text: 'ATS-optimised in minutes' },
-  { icon: RiSpeedLine, text: 'Instant AI feedback' },
-  { icon: RiBrainLine, text: 'Personalised career roadmap' },
-  { icon: RiCheckLine, text: 'Role-specific interview prep' },
-  { icon: RiBarChartLine, text: 'Real-time scoring dashboard' },
-  { icon: RiLightbulbLine, text: 'Skill gap analysis' },
+  { icon: RiShieldCheckLine, text: 'ATS score checker' },
+  { icon: RiSpeedLine, text: 'Resume review' },
+  { icon: RiBrainLine, text: 'Career planning' },
+  { icon: RiCheckLine, text: 'Interview preparation' },
+  { icon: RiBarChartLine, text: 'Placement dashboard' },
+  { icon: RiLightbulbLine, text: 'Skill tracking' },
 ]
 
 const testimonials = [
   {
-    name: 'Priya Sharma',
-    role: 'Software Engineer at Google',
+    name: 'Student A',
+    role: 'Computer science student',
     avatar: 'PS',
     gradient: 'from-indigo-500 to-purple-600',
     rating: 5,
     quote:
-      'Career Copilot helped me identify exactly what was missing in my resume. My ATS score went from 54% to 91% in one afternoon. Got my Google offer two months later.',
+      'Career Copilot helped me identify exactly what was missing in my resume. My ATS score went from 54% to 91% in one afternoon. Got my internship offer two months later.',
   },
   {
-    name: 'James Okonkwo',
-    role: 'Product Manager at Stripe',
+    name: 'Student B',
+    role: 'Engineering student',
     avatar: 'JO',
     gradient: 'from-blue-500 to-cyan-500',
     rating: 5,
     quote:
-      'The interview question generator is insanely good. It gave me role-specific questions I hadn\'t even thought of, and I nailed every behavioural round.',
+      'The interview question generator is insanely good. It gave me role-specific questions I didnt even think of, and I nailed every behavioural round.',
   },
   {
-    name: 'Sara Müller',
-    role: 'Data Scientist at Airbnb',
+    name: 'Student C',
+    role: 'AIML student',
     avatar: 'SM',
     gradient: 'from-pink-500 to-rose-500',
     rating: 5,
@@ -466,45 +466,7 @@ const Landing = () => {
       </section>
 
       {/* ── Testimonials ────────────────────────────── */}
-      <section id="testimonials" className="py-24 px-4 bg-gray-900/40 border-y border-gray-800/50">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <SectionLabel>Testimonials</SectionLabel>
-            <SectionHeading>
-              Real results from{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">
-                real students
-              </span>
-            </SectionHeading>
-            <p className="text-gray-400 mt-4 max-w-xl mx-auto text-base">
-              Here's what our users say after landing their dream jobs.
-            </p>
-          </div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {testimonials.map((t) => (
-              <div
-                key={t.name}
-                className="bg-gray-900 border border-gray-800 rounded-2xl p-6 hover:border-gray-700 hover:-translate-y-1 hover:shadow-xl hover:shadow-black/20 transition-all duration-300"
-              >
-                <StarRating count={t.rating} />
-                <p className="text-gray-300 text-sm leading-relaxed mt-4 mb-6">
-                  &ldquo;{t.quote}&rdquo;
-                </p>
-                <div className="flex items-center gap-3 pt-4 border-t border-gray-800">
-                  <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${t.gradient} flex items-center justify-center text-white text-xs font-bold flex-shrink-0`}>
-                    {t.avatar}
-                  </div>
-                  <div>
-                    <p className="text-sm font-semibold text-gray-200">{t.name}</p>
-                    <p className="text-xs text-gray-500">{t.role}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      
 
       {/* ── CTA Section ─────────────────────────────── */}
       <section className="py-24 px-4 relative overflow-hidden">
@@ -513,16 +475,15 @@ const Landing = () => {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-indigo-600/10 rounded-full blur-3xl" />
         </div>
         <div className="relative max-w-3xl mx-auto text-center">
-          <SectionLabel>Get Started Today</SectionLabel>
+          <SectionLabel>Start Your Journey</SectionLabel>
           <SectionHeading className="mb-6">
-            Your next career move{' '}
+            Build a stronger career profile{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">
-              starts here
+              with Career Copilot
             </span>
           </SectionHeading>
           <p className="text-gray-400 text-lg mb-10 leading-relaxed">
-            Join thousands of students who used Career Copilot to optimise their resumes,
-            crack interviews, and land top-tier jobs.
+            Track your progress, improve your resume, prepare for interviews, and stay organised throughout your placement journey.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link to="/signup">
@@ -554,20 +515,9 @@ const Landing = () => {
                 <span className="font-bold text-gray-100">Career Copilot</span>
               </Link>
               <p className="text-sm text-gray-500 leading-relaxed">
-                AI-powered career tools to help students and professionals land their dream jobs.
+                Career development tools for students to improve resumes, prepare for interviews, and track placement progress.
               </p>
-              <div className="flex gap-3 mt-4">
-                {[RiLinkedinBoxFill, RiTwitterXLine, RiGithubFill].map((Icon, i) => (
-                  <a
-                    key={i}
-                    href="#"
-                    className="w-8 h-8 rounded-lg bg-gray-800 hover:bg-gray-700 flex items-center justify-center text-gray-400 hover:text-gray-200 transition-colors"
-                  >
-                    <Icon size={16} />
-                  </a>
-                ))}
               </div>
-            </div>
 
             {/* Product */}
             <div>

@@ -17,11 +17,11 @@
  *       token:   "eyJhbGci...",
  *       user: {
  *         _id:            "mongo-object-id",
- *         firstName:      "Arjun",
- *         lastName:       "Sharma",
- *         email:          "arjun@example.com",
- *         targetRole:     "Senior Full Stack Developer",
- *         college:        "IIT Delhi",
+ *         firstName:      "Student",
+ *         lastName:       "User",
+ *         email:          "student@example.com",
+ *         targetRole:     "Software engineer",
+ *         college:        "your college",
  *         avatarUrl:      null,
  *         createdAt:      "2024-01-15T..."
  *       }
@@ -57,7 +57,7 @@ export const login = async ({ email, password }) => {
   const mockData = {
     success: true,
     token: 'mock-jwt-token-login',
-    user: { _id: '1', firstName: 'Arjun', lastName: 'Sharma', email, targetRole: 'Senior Full Stack Developer' },
+    user: { _id: '1', firstName: 'Stuent', lastName: 'User', email, targetRole: 'Software Engineer' },
   }
   saveToken(mockData.token)
   saveUser(mockData.user)

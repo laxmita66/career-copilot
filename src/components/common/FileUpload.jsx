@@ -178,9 +178,9 @@ const FileUpload = ({ onFileReady }) => {
       </div>
 
       {/* Progress bar */}
-      <div className="w-full h-2.5 bg-gray-800 rounded-full overflow-hidden">
+      <div className="w-full h-2.5 bg-gray-800 rounded-md overflow-hidden">
         <div
-          className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 transition-all duration-200"
+          className="h-full rounded-md bg-indigo-600"
           style={{ width: `${progress}%` }}
         />
       </div>
@@ -229,8 +229,8 @@ const FileUpload = ({ onFileReady }) => {
       </div>
 
       {/* Full progress bar – complete */}
-      <div className="w-full h-2 bg-gray-800 rounded-full overflow-hidden">
-        <div className="h-full w-full rounded-full bg-gradient-to-r from-green-500 to-emerald-400" />
+      <div className="w-full h-2 bg-gray-800 rounded-md overflow-hidden">
+        <div className="h-full w-full rounded-md bg-green-500" />
       </div>
       <p className="text-xs text-green-400/80 text-center mt-2 font-medium">Ready to analyze</p>
     </div>

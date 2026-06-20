@@ -27,6 +27,11 @@ import {
   targetRole,
 } from './mockSkillGapData'
 
+// Resource URLs for the "View Resources" and "Start Learning" CTA buttons.
+// "recommendedNext" is 'Docker' — point to its first resource URL.
+const RECOMMENDED_RESOURCES_URL = 'https://docs.docker.com'
+const RECOMMENDED_ROADMAP_URL   = 'https://roadmap.sh/devops'
+
 /* ══════════════════════════════════════════════════════════
    Config / Helpers
 ══════════════════════════════════════════════════════════ */
@@ -76,20 +81,6 @@ const getGapColor = (gap) => {
 /* ══════════════════════════════════════════════════════════
    Sub-components
 ══════════════════════════════════════════════════════════ */
-
-/* ── Animated progress bar ── */
-const ProgressBar = ({ value, max = 100, color = '#6366f1', thin = false }) => (
-  <div className={`w-full ${thin ? 'h-1.5' : 'h-2.5'} bg-gray-800 rounded-full overflow-hidden`}>
-    <div
-      className="h-full rounded-full transition-all duration-700 ease-out"
-      style={{
-        width: `${(value / max) * 100}%`,
-        background: color,
-        boxShadow: `0 0 8px ${color}50`,
-      }}
-    />
-  </div>
-)
 
 /* ── Dual-bar showing current vs required ── */
 const SkillLevelBar = ({ current, required }) => {
@@ -526,8 +517,18 @@ const SkillGap = () => {
           </p>
         </div>
         <div className="flex gap-2 flex-shrink-0">
-          <Button variant="secondary" size="sm">View Resources</Button>
-          <Button size="sm" className="shadow-md shadow-indigo-500/20">
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={() => window.open(RECOMMENDED_RESOURCES_URL, '_blank', 'noopener,noreferrer')}
+          >
+            View Resources
+          </Button>
+          <Button
+            size="sm"
+            className="shadow-md shadow-indigo-500/20"
+            onClick={() => window.open(RECOMMENDED_ROADMAP_URL, '_blank', 'noopener,noreferrer')}
+          >
             Start Learning
             <RiArrowRightLine size={14} />
           </Button>

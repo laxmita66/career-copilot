@@ -15,13 +15,13 @@ import {
 
 const navItems = [
   {
-    group: 'Overview',
+    group: 'Main Menu',
     items: [
       { label: 'Dashboard',    icon: RiDashboardLine, to: '/dashboard' },
     ],
   },
   {
-    group: 'AI Tools',
+    group: 'Placement Tools',
     items: [
       { label: 'Resume Upload',       icon: RiFileTextLine,       to: '/resume-upload'        },
       { label: 'JD Analyzer',         icon: RiSearchEyeLine,      to: '/jd-analyzer'          },
@@ -31,14 +31,14 @@ const navItems = [
     ],
   },
   {
-    group: 'Placement',
+    group: 'Career Progress',
     items: [
       { label: 'Placement Tracker',   icon: RiBriefcaseLine, to: '/placement-tracker'  },
       { label: 'Placement Journey',   icon: RiMapPinLine,    to: '/placement-journey'  },
     ],
   },
   {
-    group: 'Account',
+    group: 'Profile',
     items: [
       { label: 'Profile', icon: RiUser3Line, to: '/profile' },
     ],
@@ -113,16 +113,7 @@ const Sidebar = ({ open, onClose }) => {
           ))}
         </nav>
 
-        {/* Upgrade banner */}
-        <div className="p-4 border-t border-gray-800 flex-shrink-0">
-          <div className="bg-gradient-to-br from-indigo-600/20 to-purple-600/20 border border-indigo-500/20 rounded-xl p-4">
-            <p className="text-sm font-semibold text-gray-200 mb-1">Upgrade to Pro</p>
-            <p className="text-xs text-gray-400 mb-3">Unlock all features and tools.</p>
-            <button className="w-full bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium py-2 rounded-lg transition-colors">
-              Get Pro
-            </button>
-          </div>
-        </div>
+        
       </aside>
     </>
   )

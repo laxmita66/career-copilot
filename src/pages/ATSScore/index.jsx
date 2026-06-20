@@ -1,3 +1,5 @@
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
   RiBarChartLine,
   RiCheckLine,
@@ -19,9 +21,8 @@ import {
   Legend, ResponsiveContainer, ReferenceLine,
 } from 'recharts'
 
-import PageHeader    from '../../components/ui/PageHeader'
-import Card          from '../../components/ui/Card'
-import Button        from '../../components/ui/Button'
+import PageHeader from '../../components/ui/PageHeader'
+import Button     from '../../components/ui/Button'
 import {
   overallScore,
   getRating,
@@ -32,13 +33,13 @@ import {
   atsHistory,
 } from '../../utils/mockATSData'
 
-/* ─── Icon map for categories ──────────────────────────── */
+/* ─── Icon map for categories ── */
 const categoryIcons = {
-  skill:   { Icon: RiCodeLine,      bg: 'bg-indigo-500/15', text: 'text-indigo-400'  },
-  project: { Icon: RiFileTextLine,  bg: 'bg-blue-500/15',   text: 'text-blue-400'    },
-  edu:     { Icon: RiBookOpenLine,  bg: 'bg-purple-500/15', text: 'text-purple-400'  },
-  exp:     { Icon: RiBriefcaseLine, bg: 'bg-orange-500/15', text: 'text-orange-400'  },
-  keyword: { Icon: RiKeyLine,       bg: 'bg-yellow-500/15', text: 'text-yellow-400'  },
+  skill:   { Icon: RiCodeLine,      bg: 'bg-indigo-500/15', text: 'text-indigo-400' },
+  project: { Icon: RiFileTextLine,  bg: 'bg-blue-500/15',   text: 'text-blue-400'   },
+  edu:     { Icon: RiBookOpenLine,  bg: 'bg-purple-500/15', text: 'text-purple-400' },
+  exp:     { Icon: RiBriefcaseLine, bg: 'bg-orange-500/15', text: 'text-orange-400' },
+  keyword: { Icon: RiKeyLine,       bg: 'bg-yellow-500/15', text: 'text-yellow-400' },
 }
 
 const priorityConfig = {
@@ -47,30 +48,27 @@ const priorityConfig = {
   Low:    'bg-gray-700/60 text-gray-400 border-gray-600/25',
 }
 
-/* ─── Circular ATS Score ───────────────────────────────── */
+/* ─── Circular ATS Score ── */
 const CircularATS = ({ score }) => {
-  const rating       = getRating(score)
-  const radius       = 72
-  const strokeW      = 10
-  const norm         = radius - strokeW / 2
+  const rating        = getRating(score)
+  const radius        = 72
+  const strokeW       = 10
+  const norm          = radius - strokeW / 2
   const circumference = 2 * Math.PI * norm
-  const offset       = circumference - (score / 100) * circumference
+  const offset        = circumference - (score / 100) * circumference
 
   return (
     <div className="flex flex-col items-center gap-4">
       <div className="relative inline-flex items-center justify-center">
         <svg width={radius * 2} height={radius * 2} className="-rotate-90">
-          {/* Glow filter */}
           <defs>
             <filter id="glow">
               <feGaussianBlur stdDeviation="3" result="blur" />
               <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
             </filter>
           </defs>
-          {/* Track */}
           <circle cx={radius} cy={radius} r={norm}
             fill="none" stroke="#1f2937" strokeWidth={strokeW} />
-          {/* Progress */}
           <circle cx={radius} cy={radius} r={norm}
             fill="none"
             stroke={rating.color}
@@ -82,13 +80,11 @@ const CircularATS = ({ score }) => {
             className="transition-all duration-1000 ease-out"
           />
         </svg>
-        {/* Centre */}
         <div className="absolute flex flex-col items-center leading-none">
           <span className="text-5xl font-extrabold text-gray-100">{score}</span>
           <span className="text-xs text-gray-500 font-medium mt-1 tracking-wide">/100</span>
         </div>
       </div>
-      {/* Rating badge */}
       <span className={`inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-semibold ${rating.bg} ${rating.text}`}>
         <RiSparklingLine size={13} />
         {rating.label}
@@ -97,7 +93,7 @@ const CircularATS = ({ score }) => {
   )
 }
 
-/* ─── Score progress bar row ───────────────────────────── */
+/* ─── Score progress bar row ── */
 const ScoreBar = ({ label, score, icon }) => {
   const rating = getRating(score)
   const cfg    = categoryIcons[icon] ?? categoryIcons.skill
@@ -126,7 +122,7 @@ const ScoreBar = ({ label, score, icon }) => {
   )
 }
 
-/* ─── Custom chart tooltip ─────────────────────────────── */
+/* ─── Custom chart tooltip ── */
 const ChartTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null
   return (
@@ -141,7 +137,7 @@ const ChartTooltip = ({ active, payload, label }) => {
   )
 }
 
-/* ─── Section title ────────────────────────────────────── */
+/* ─── Section title ── */
 const SectionTitle = ({ icon: Icon, iconCls, title, subtitle }) => (
   <div className="flex items-start gap-3 mb-5">
     <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 ${iconCls}`}>
@@ -154,13 +150,41 @@ const SectionTitle = ({ icon: Icon, iconCls, title, subtitle }) => (
   </div>
 )
 
+/* ─── Toast ── */
+const Toast = ({ show, message }) => (
+  <div className={`fixed bottom-6 right-6 z-50 flex items-center gap-3 bg-gray-800 border border-gray-700 rounded-2xl px-5 py-3.5 shadow-2xl transition-all duration-300 ${show ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}>
+    <RiCheckLine size={15} className="text-green-400 flex-shrink-0" />
+    <span className="text-sm text-gray-200 font-medium">{message}</span>
+  </div>
+)
+
 /* ══════════════════════════════════════════════════════════
    ATSScore Page
 ══════════════════════════════════════════════════════════ */
 const ATSScore = () => {
-  const overallRating = getRating(overallScore)
-  const passedCount   = atsChecklist.filter((c) => c.passed).length
-  const totalCount    = atsChecklist.length
+  const navigate        = useNavigate()
+  const [scanning, setScanning] = useState(false)
+  const [score, setScore]       = useState(overallScore)
+  const [toast, setToast]       = useState({ show: false, message: '' })
+
+  const passedCount = atsChecklist.filter((c) => c.passed).length
+  const totalCount  = atsChecklist.length
+
+  const showToast = (msg) => {
+    setToast({ show: true, message: msg })
+    setTimeout(() => setToast({ show: false, message: '' }), 3000)
+  }
+
+  // Re-scan: simulate a rescan with a slightly varied score (mock only)
+  const handleRescan = async () => {
+    setScanning(true)
+    await new Promise((r) => setTimeout(r, 1500))
+    // Simulate small score variation to show something happened
+    const variation = Math.floor(Math.random() * 5) - 2
+    setScore((prev) => Math.max(40, Math.min(100, prev + variation)))
+    setScanning(false)
+    showToast('Re-scan complete! Upload a new resume for accurate results.')
+  }
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">
@@ -168,14 +192,21 @@ const ATSScore = () => {
       {/* Header */}
       <PageHeader
         title="ATS Score Analysis"
-        description="See how well your resume performs against Applicant Tracking Systems and get targeted improvement suggestions."
+        description="See how well your resume performs against ATS filters and get actionable improvement tips."
         actions={
           <div className="flex items-center gap-2">
-            <Button variant="secondary" size="sm">
+            {/* FIX: onClick is now a proper prop on the Button, not text content */}
+            <Button
+              variant="secondary"
+              size="sm"
+              loading={scanning}
+              disabled={scanning}
+              onClick={handleRescan}
+            >
               <RiRefreshLine size={14} />
-              Re-scan
+              {scanning ? 'Scanning…' : 'Re-scan'}
             </Button>
-            <Button size="sm">
+            <Button size="sm" onClick={() => showToast('Report download requires backend integration.')}>
               <RiDownloadLine size={14} />
               Export Report
             </Button>
@@ -193,15 +224,14 @@ const ATSScore = () => {
             <p className="text-xs text-gray-500">Based on latest resume scan</p>
           </div>
 
-          <CircularATS score={overallScore} />
+          <CircularATS score={score} />
 
-          {/* Mini stat pills */}
           <div className="grid grid-cols-2 gap-3 w-full">
             {[
-              { label: 'Sections Found',  value: `${passedCount}/${totalCount}` },
-              { label: 'Keywords Matched', value: '74%' },
-              { label: 'Format Score',     value: '92%' },
-              { label: 'Last Scanned',     value: 'Apr 3'  },
+              { label: 'Sections Found',   value: `${passedCount}/${totalCount}` },
+              { label: 'Keywords Matched', value: '74%'   },
+              { label: 'Format Score',     value: '92%'   },
+              { label: 'Last Scanned',     value: 'Apr 3' },
             ].map((s) => (
               <div key={s.label} className="bg-gray-800/60 rounded-xl px-3 py-2.5 text-center">
                 <p className="text-sm font-bold text-gray-100">{s.value}</p>
@@ -234,8 +264,6 @@ const ATSScore = () => {
             title="ATS Checklist"
             subtitle={`${passedCount} of ${totalCount} items passing`}
           />
-
-          {/* Progress bar */}
           <div className="mb-5">
             <div className="flex justify-between text-xs text-gray-500 mb-1.5">
               <span>Completion</span>
@@ -248,20 +276,11 @@ const ATSScore = () => {
               />
             </div>
           </div>
-
           <ul className="space-y-2">
             {atsChecklist.map((item) => (
-              <li
-                key={item.id}
-                className="flex items-center gap-3 py-2 px-3 rounded-xl hover:bg-gray-800/50 transition-colors"
-              >
-                <span className={`flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center
-                  ${item.passed
-                    ? 'bg-green-500/20 text-green-400'
-                    : 'bg-red-500/15 text-red-400'}`}>
-                  {item.passed
-                    ? <RiCheckLine size={11} />
-                    : <RiCloseLine size={11} />}
+              <li key={item.id} className="flex items-center gap-3 py-2 px-3 rounded-xl hover:bg-gray-800/50 transition-colors">
+                <span className={`flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center ${item.passed ? 'bg-green-500/20 text-green-400' : 'bg-red-500/15 text-red-400'}`}>
+                  {item.passed ? <RiCheckLine size={11} /> : <RiCloseLine size={11} />}
                 </span>
                 <span className={`text-sm ${item.passed ? 'text-gray-300' : 'text-gray-500 line-through'}`}>
                   {item.label}
@@ -277,81 +296,52 @@ const ATSScore = () => {
         </div>
       </div>
 
-      {/* ── Row 2: Charts ──────────────────────────────── */}
+      {/* ── Row 2: Charts ── */}
       <div className="grid lg:grid-cols-2 gap-6">
-
-        {/* Category Comparison Bar Chart */}
         <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6">
           <SectionTitle
             icon={RiBarChartLine}
             iconCls="bg-blue-500/15 text-blue-400"
             title="ATS Category Comparison"
-            subtitle="Your scores vs. industry benchmark"
+            subtitle="Your scores vs. average benchmark"
           />
           <ResponsiveContainer width="100%" height={240}>
             <BarChart data={categoryChartData} margin={{ top: 5, right: 10, left: -20, bottom: 0 }} barGap={4}>
               <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" vertical={false} />
-              <XAxis
-                dataKey="category"
-                tick={{ fill: '#6b7280', fontSize: 11 }}
-                axisLine={false}
-                tickLine={false}
-              />
-              <YAxis
-                domain={[0, 100]}
-                tick={{ fill: '#6b7280', fontSize: 11 }}
-                axisLine={false}
-                tickLine={false}
-              />
+              <XAxis dataKey="category" tick={{ fill: '#6b7280', fontSize: 11 }} axisLine={false} tickLine={false} />
+              <YAxis domain={[0, 100]} tick={{ fill: '#6b7280', fontSize: 11 }} axisLine={false} tickLine={false} />
               <Tooltip content={<ChartTooltip />} />
-              <Legend
-                wrapperStyle={{ fontSize: 11, color: '#9ca3af', paddingTop: '12px' }}
-                iconType="square"
-                iconSize={9}
-              />
+              <Legend wrapperStyle={{ fontSize: 11, color: '#9ca3af', paddingTop: '12px' }} iconType="square" iconSize={9} />
               <Bar dataKey="score"     name="Your Score" fill="#6366f1" radius={[4, 4, 0, 0]} maxBarSize={28} />
               <Bar dataKey="benchmark" name="Benchmark"  fill="#374151" radius={[4, 4, 0, 0]} maxBarSize={28} />
             </BarChart>
           </ResponsiveContainer>
         </div>
 
-        {/* Improvement Trend Line Chart */}
         <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6">
           <SectionTitle
             icon={RiArrowUpLine}
             iconCls="bg-green-500/15 text-green-400"
-            title="ATS Improvement Trend"
-            subtitle="Score progression across all scans"
+            title="ATS Score Trend"
+            subtitle="Score progression across scans"
           />
           <ResponsiveContainer width="100%" height={240}>
             <LineChart data={atsHistory} margin={{ top: 5, right: 10, left: -20, bottom: 0 }}>
               <defs>
                 <linearGradient id="trendGrad" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0%"   stopColor="#6366f1" />
+                  <stop offset="0%" stopColor="#6366f1" />
                   <stop offset="100%" stopColor="#22c55e" />
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" vertical={false} />
-              <XAxis
-                dataKey="date"
-                tick={{ fill: '#6b7280', fontSize: 11 }}
-                axisLine={false}
-                tickLine={false}
-              />
-              <YAxis
-                domain={[40, 100]}
-                tick={{ fill: '#6b7280', fontSize: 11 }}
-                axisLine={false}
-                tickLine={false}
-              />
+              <XAxis dataKey="date" tick={{ fill: '#6b7280', fontSize: 11 }} axisLine={false} tickLine={false} />
+              <YAxis domain={[40, 100]} tick={{ fill: '#6b7280', fontSize: 11 }} axisLine={false} tickLine={false} />
               <Tooltip content={<ChartTooltip />} />
-              <ReferenceLine y={85} stroke="#22c55e22" strokeDasharray="4 4" label={{ value: 'Excellent', fill: '#22c55e', fontSize: 10, position: 'right' }} />
+              <ReferenceLine y={85} stroke="#22c55e22" strokeDasharray="4 4"
+                label={{ value: 'Excellent', fill: '#22c55e', fontSize: 10, position: 'right' }} />
               <Line
-                type="monotone"
-                dataKey="score"
-                name="ATS Score"
-                stroke="url(#trendGrad)"
-                strokeWidth={3}
+                type="monotone" dataKey="score" name="ATS Score"
+                stroke="url(#trendGrad)" strokeWidth={3}
                 dot={{ fill: '#6366f1', r: 4, strokeWidth: 0 }}
                 activeDot={{ r: 6, fill: '#22c55e', strokeWidth: 0 }}
               />
@@ -360,21 +350,18 @@ const ATSScore = () => {
         </div>
       </div>
 
-      {/* ── Row 3: Recommendations ─────────────────────── */}
+      {/* ── Row 3: Recommendations ── */}
       <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6">
         <SectionTitle
           icon={RiLightbulbLine}
           iconCls="bg-yellow-500/15 text-yellow-400"
           title="Improvement Recommendations"
-          subtitle="Actionable steps to raise your ATS score"
+          subtitle="Apply these to raise your ATS score"
         />
-
         <div className="grid sm:grid-cols-2 gap-4">
           {recommendations.map((rec) => (
-            <div
-              key={rec.id}
-              className="group bg-gray-800/50 border border-gray-700/50 hover:border-gray-600 rounded-2xl p-5 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-black/20"
-            >
+            <div key={rec.id}
+              className="group bg-gray-800/50 border border-gray-700/50 hover:border-gray-600 rounded-2xl p-5 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-black/20">
               <div className="flex items-start justify-between gap-3 mb-3">
                 <div className="flex items-center gap-2.5">
                   <span className="w-7 h-7 rounded-lg bg-yellow-500/10 flex items-center justify-center text-yellow-400 text-xs font-bold flex-shrink-0">
@@ -397,31 +384,45 @@ const ATSScore = () => {
         </div>
       </div>
 
-      {/* ── CTA banner ──────────────────────────────────── */}
+      {/* ── CTA banner ── */}
+      {/* FIX: all three buttons now have correct onClick handlers */}
       <div className="bg-gradient-to-r from-indigo-600/10 via-purple-600/8 to-indigo-600/10 border border-indigo-500/20 rounded-2xl p-6 flex flex-col sm:flex-row items-start sm:items-center gap-4">
         <div className="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center flex-shrink-0 shadow-lg shadow-indigo-500/30">
           <RiSparklingLine size={18} className="text-white" />
         </div>
         <div className="flex-1">
           <p className="text-sm font-semibold text-gray-200">
-            Ready to push your score above 90?
+            Want a higher score? Upload an updated resume.
           </p>
           <p className="text-xs text-gray-400 mt-0.5">
-            Apply the recommendations above, re-upload your resume, and re-scan to see your new score.
+            Apply the recommendations above, update your resume, and re-scan to see the improvement.
           </p>
         </div>
         <div className="flex gap-3 flex-shrink-0">
-          <Button variant="secondary" size="sm">
+          {/* FIX: navigates to /resume-upload */}
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={() => navigate('/resume-upload')}
+          >
             <RiFileTextLine size={14} />
             Upload Resume
           </Button>
-          <Button size="sm" className="shadow-md shadow-indigo-500/20">
+          {/* FIX: triggers the rescan handler */}
+          <Button
+            size="sm"
+            loading={scanning}
+            disabled={scanning}
+            onClick={handleRescan}
+            className="shadow-md shadow-indigo-500/20"
+          >
             <RiRefreshLine size={14} />
             Re-scan Now
           </Button>
         </div>
       </div>
 
+      <Toast show={toast.show} message={toast.message} />
     </div>
   )
 }

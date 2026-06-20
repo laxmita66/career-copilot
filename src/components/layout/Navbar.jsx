@@ -1,7 +1,18 @@
 import { Link } from 'react-router-dom'
-import { RiMenu2Line, RiBellLine, RiSearchLine, RiUser3Line } from 'react-icons/ri'
+import { RiMenu2Line, RiUser3Line } from 'react-icons/ri'
+import { useAuth } from '../../context/AuthContext'
 
 const Navbar = ({ onMenuClick }) => {
+  const { user } = useAuth()
+
+  // Derive initials and display name from the auth user object
+  const initials = user
+    ? `${user.firstName?.[0] ?? ''}${user.lastName?.[0] ?? ''}`.toUpperCase() || 'U'
+    : 'U'
+  const displayName = user?.firstName
+    ? `${user.firstName}${user.lastName ? ' ' + user.lastName[0] + '.' : ''}`
+    : 'Profile'
+
   return (
     <header className="h-16 bg-gray-900/80 backdrop-blur-md border-b border-gray-800 flex items-center px-4 lg:px-6 gap-4 sticky top-0 z-30">
       {/* Mobile menu toggle */}
@@ -21,33 +32,25 @@ const Navbar = ({ onMenuClick }) => {
         <span className="font-semibold text-gray-100">Career Copilot</span>
       </Link>
 
-      {/* Search */}
-      <div className="hidden sm:flex flex-1 max-w-sm ml-auto lg:ml-0">
-        <div className="relative w-full">
-          <RiSearchLine className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" size={16} />
-          <input
-            type="search"
-            placeholder="Search..."
-            className="w-full bg-gray-800 border border-gray-700 rounded-lg pl-9 pr-4 py-2 text-sm text-gray-300 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
-          />
+      {/* Spacer */}
+      <div className="flex-1" />
+
+      {/* Profile link — shows real user initials */}
+      <Link
+        to="/profile"
+        className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-gray-800 transition-colors"
+      >
+        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center flex-shrink-0">
+          {initials.length >= 2 ? (
+            <span className="text-xs font-bold text-white leading-none">{initials}</span>
+          ) : (
+            <RiUser3Line size={15} className="text-white" />
+          )}
         </div>
-      </div>
-
-      <div className="ml-auto flex items-center gap-2">
-        {/* Notifications */}
-        <button className="relative p-2 rounded-lg text-gray-400 hover:text-gray-100 hover:bg-gray-800 transition-colors">
-          <RiBellLine size={20} />
-          <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-indigo-500 rounded-full ring-2 ring-gray-900" />
-        </button>
-
-        {/* Avatar */}
-        <button className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-gray-800 transition-colors">
-          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
-            <RiUser3Line size={16} className="text-white" />
-          </div>
-          <span className="hidden md:block text-sm text-gray-300">User</span>
-        </button>
-      </div>
+        <span className="hidden md:block text-sm text-gray-300 max-w-[120px] truncate">
+          {displayName}
+        </span>
+      </Link>
     </header>
   )
 }

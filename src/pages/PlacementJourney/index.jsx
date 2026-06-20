@@ -185,8 +185,15 @@ const PlacementJourney = () => {
         )}
       </div>
 
-      {/* Tips banner */}
-      <div className="bg-gradient-to-r from-indigo-600/10 to-purple-600/10 border border-indigo-500/20 rounded-2xl p-5 flex items-start gap-4">
+      {/* Tips banner — clicking scrolls back to timeline top */}
+      <div
+        className="bg-gradient-to-r from-indigo-600/10 to-purple-600/10 border border-indigo-500/20 rounded-2xl p-5 flex items-start gap-4 cursor-pointer hover:border-indigo-500/40 transition-colors"
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => e.key === 'Enter' && window.scrollTo({ top: 0, behavior: 'smooth' })}
+        aria-label="Scroll to top"
+      >
         <div className="w-9 h-9 rounded-xl bg-indigo-500/20 flex items-center justify-center flex-shrink-0">
           <RiLightbulbLine size={17} className="text-indigo-400"/>
         </div>
@@ -196,7 +203,7 @@ const PlacementJourney = () => {
             Students who review their interview feedback and lessons learned are <span className="text-indigo-400 font-semibold">3× more likely</span> to clear subsequent rounds. Every rejection is data.
           </p>
         </div>
-        <RiArrowRightLine size={16} className="text-gray-600 flex-shrink-0 mt-1" />
+        <RiArrowRightLine size={16} className="text-indigo-400 flex-shrink-0 mt-1" />
       </div>
     </div>
   )

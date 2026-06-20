@@ -1,28 +1,28 @@
 // ── User info ─────────────────────────────────────────────────────────────────
 export const userProfile = {
-  firstName:      'Arjun',
-  lastName:       'Sharma',
-  email:          'arjun.sharma@example.com',
-  phone:          '+91 98765 43210',
-  college:        'Indian Institute of Technology, Delhi',
+  firstName:      'Student',
+  lastName:       'User',
+  email:          'Student@example.com',
+  phone:          '+91 XXXXX XXXXX',
+  college:        'Your College',
   degree:         'B.Tech in Computer Science',
-  graduationYear: '2024',
-  targetRole:     'Senior Full Stack Developer',
+  graduationYear: '2028',
+  targetRole:     'Software Engineer',
   location:       'Bangalore, India',
-  linkedin:       'linkedin.com/in/arjunsharma',
-  github:         'github.com/arjunsharma',
-  bio:            'Final year CS undergrad passionate about building scalable web applications. Currently focused on React, Node.js, and cloud infrastructure. Actively preparing for product-based company placements.',
-  avatarInitials: 'AS',
+  linkedin:       '',
+  github:         '',
+  bio:            'Engineering student interested in AI, machine learning, and software development.',
+  avatarInitials: 'SU',
   avatarGradient: 'from-indigo-500 to-purple-600',
   joinDate:       'January 2024',
 }
 
 // ── Placement statistics ───────────────────────────────────────────────────────
 export const placementStats = [
-  { label: 'ATS Score',              value: '87%',  sub: 'Latest scan',        trend: '+12%', up: true  },
-  { label: 'Resume Analyses',        value: '24',   sub: 'Total scans',        trend: '+4',   up: true  },
-  { label: 'Interview Questions',    value: '138',  sub: 'Generated',          trend: '+22',  up: true  },
-  { label: 'Skill Completion',       value: '68%',  sub: 'Overall readiness',  trend: '+8%',  up: true  },
+  { label: 'ATS Score',              value: '87%',  sub: 'Latest scan',        trend: 'This Week', up: true  },
+  { label: 'Resume Analyses',        value: '24',   sub: 'Total scans',        trend: 'This Week',   up: true  },
+  { label: 'Interview Questions',    value: '138',  sub: 'Generated',          trend: 'This Week',  up: true  },
+  { label: 'Skill Completion',       value: '68%',  sub: 'Overall readiness',  trend: 'This Week',  up: true  },
 ]
 
 // ── ATS Score history (for mini sparkline) ────────────────────────────────────
@@ -66,7 +66,7 @@ export const analysisHistory = [
     id: 1,
     type: 'JD Analysis',
     date: 'Apr 3, 2024',
-    result: '78% match — Senior Frontend Engineer @ Stripe',
+    result: '78% match — Senior Frontend Engineer ',
     icon: 'jd',
   },
   {
@@ -94,7 +94,7 @@ export const analysisHistory = [
     id: 5,
     type: 'JD Analysis',
     date: 'Mar 20, 2024',
-    result: '71% match — Backend Engineer @ Razorpay',
+    result: '71% match — Backend Engineer ',
     icon: 'jd',
   },
   {
