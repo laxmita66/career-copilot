@@ -57,7 +57,7 @@ export const login = async ({ email, password }) => {
   const mockData = {
     success: true,
     token: 'mock-jwt-token-login',
-    user: { _id: '1', firstName: 'Stuent', lastName: 'User', email, targetRole: 'Software Engineer' },
+    user: { _id: '1', firstName: 'Student', lastName: 'User', email, targetRole: 'Software Engineer' },
   }
   saveToken(mockData.token)
   saveUser(mockData.user)
