@@ -3,10 +3,20 @@
 @layer base {
   :root {
     color-scheme: dark;
+    --brand:        #0f766e;
+    --brand-hover:  #115e59;
+    --bg:           #080f14;
+    --surface:      #121820;
+    --border:       #253243;
+    --text:         #f8fafc;
+    --text-muted:   #94a3b8;
+    --text-faint:   #64748b;
   }
 
   body {
-    @apply bg-gray-950 text-gray-100 antialiased;
+    background-color: var(--bg);
+    color: var(--text);
+    @apply antialiased;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
   }
 
@@ -14,19 +24,26 @@
     @apply box-border;
   }
 
-  ::-webkit-scrollbar {
-    @apply w-1.5;
-  }
+  /* ── Scrollbar ── */
+  ::-webkit-scrollbar        { width: 5px; }
+  ::-webkit-scrollbar-track  { background: var(--bg); }
+  ::-webkit-scrollbar-thumb  { background: var(--border); border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: #374151; }
 
-  ::-webkit-scrollbar-track {
-    @apply bg-gray-900;
+  /* ── Focus rings ── */
+  :focus-visible {
+    outline: 2px solid var(--brand);
+    outline-offset: 2px;
   }
+}
 
-  ::-webkit-scrollbar-thumb {
-    @apply bg-gray-700 rounded-md;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    @apply bg-gray-500;
-  }
+@layer utilities {
+  /* Brand surface helpers */
+  .bg-brand        { background-color: var(--brand); }
+  .bg-brand-hover  { background-color: var(--brand-hover); }
+  .text-brand      { color: var(--brand); }
+  .border-surface  { border-color: var(--border); }
+  .bg-surface      { background-color: var(--surface); }
+  .text-muted      { color: var(--text-muted); }
+  .text-faint      { color: var(--text-faint); }
 }
